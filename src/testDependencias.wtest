@@ -1,0 +1,47 @@
+import dependencias.*
+import rodados.*
+import pedidos.*
+
+describe "probamos depedencias" {
+	const deportes = new Dependencias(empleados=45)
+	const cultura = new Dependencias(empleados=31)
+	
+	var cachito = new Corsa(color="rojo")
+
+	method initiaize() {
+		deportes.agregarAFlota(cachito)
+		deportes.agregarAFlota(new Corsa(color="azul"))
+		deportes.agregarAFlota(new Corsa(color="verde"))
+		deportes.agregarAFlota(new Kwid(tieneAdicional=true))
+		deportes.agregarAFlota(new Kwid())
+		deportes.agregarAFlota(new AutoEspecial(capacidad=5,velocidad=160,peso=1200,color="beige"))
+		cultura.agregarAFlota(cachito)
+		cultura.agregarAFlota(new Kwid(tieneAdicional=true))
+		cultura.agregarAFlota(new Kwid())
+		trafic.motor(bataton)
+		trafic.interior(popular)
+		cultura.agregarAFlota(trafic)
+		
+		const pedido1 = new Pedidos(distancia=960,tiempoMaximo=8,cantPasajeros=4,coloresIncompatibles=#{"azul","marron"})
+		const pedido2 = new Pedidos(distancia=960,tiempoMaximo=8,cantPasajeros=4,coloresIncompatibles=#{"verde","rojo"})
+		const pedido3 = new Pedidos(distancia=960,tiempoMaximo=8,cantPasajeros=4,coloresIncompatibles=#{"beige","negro"})
+		deportes.agregarPedido(pedido1)
+		deportes.agregarPedido(pedido2)
+		deportes.agregarPedido(pedido3)
+	}
+	test "test peso sobre deportes" {
+		assert.equals(1300*3+1350+1200, deportes.pesoTotalFlota())
+	}
+	test "test esta bien equipada sobre deportes" {
+		assert.that(deportes.estaBienEquipada())
+	}
+	test "test capacidad de color azul sobre deportes" {
+		assert.equals(4+3, deportes.capacidadTotalEnColor("azul"))
+	}
+	test "validar color negro es incompatible de pedidos"{
+		assert.that(deportes.todosLosPedidosTienenColorIncompatible("negro"))
+	}
+	test "validar color verde no es incompatible de pedidos"{
+		assert.that(deportes.todosLosPedidosTienenColorIncompatible("verde"))
+	}
+}
